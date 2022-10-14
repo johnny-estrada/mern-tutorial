@@ -1,34 +1,60 @@
 // @desc Get goals
 // @route GET /api/goals
 // @access Private
-const getGoals = (request, response) => {
+const getGoals = async (request, response) => {
   response.status(200).json({ message: "Get goals" });
 };
 
-// @desc Get goals
+// @desc Set goal
 // @route SET /api/goals
 // @access Private
-const postGoal = (request, response) => {
-  response.status(200).json({ message: "Set goal" });
+const setGoal = async (request, response) => {
+  try {
+    if (!request.body.text) {
+      // response.status(400).json({message: 'Please add a text field'})
+  
+      // This is the express error handler syntax. Above is not ^.
+      response.status(400)
+      throw new Error('Please add text field')
+    }
+  
+    response.status(200).json({ message: "Set goal" });
+  } catch(error) {
+    console.log('Caught error')
+    console.log(`${error}`)
+  }
+  
 };
 
-// @desc Get goals
-// @route PUT /api/goals
+// @desc Update goal
+// @route PUT /api/goals/:id
 // @access Private
-const putGoal = (request, response) => {
-  response.status(200).json({ message: `Update goal ${request.params.id}` });
+const updateGoal = async (request, response) => {
+  try {
+    response.status(200).json({ message: `Update goal ${request.params.id}` });
+  } catch(error) {
+    console.log('Caught error')
+    console.log(`${error}`)
+  }
+  
 };
 
-// @desc Get goals
-// @route DELETE /api/goals
+// @desc Delete goal
+// @route DELETE /api/goals/:id
 // @access Private
-const deleteGoal = (request, response) => {
-  response.status(200).json({ message: `Delete goal ${request.params.id}` });
+const deleteGoal = async (request, response) => {
+  try {
+    response.status(200).json({ message: `Delete goal ${request.params.id}` });
+  } catch(error) {
+    console.log('Caught error')
+    console.log(`${error}`)
+  }
+  
 };
 
 module.exports = {
   getGoals,
-  postGoal,
-  putGoal,
-  deleteGoal
+  setGoal,
+  updateGoal,
+  deleteGoal,
 };
