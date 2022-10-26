@@ -11,8 +11,8 @@ const {
 //   response.status(200).json({ message: "Get goals" });
 // });
 
-router.route('/').get(getGoals).post(setGoal)
-router.route('/:id').put(updateGoal).delete(deleteGoal)
+router.route("/").get(getGoals).post(setGoal);
+router.route("/:id").put(updateGoal).delete(deleteGoal);
 
 // router.get("/", getGoals);
 

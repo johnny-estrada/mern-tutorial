@@ -1,0 +1,46 @@
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+// const asyncHandler = require('express-async-handler');
+const User = require("..models/userModel");
+
+// @desc Register new user
+// @route POST /api/users
+// @access Public
+const registerUser = async (request, response) => {
+  try {
+    response.json({ message: "Register User" });
+  } catch (error) {
+    console.log("Caught error");
+    console.log(`${error}`);
+  }
+};
+
+// @desc Authenticate a user
+// @route POST /api/login
+// @access Public
+const loginUser = async (request, response) => {
+  try {
+    response.json({ message: "Login User" });
+  } catch (error) {
+    console.log("Caught error");
+    console.log(`${error}`);
+  }
+};
+
+// @desc Get user data
+// @route GET /api/users/me
+// @access Public
+const getMe = async (request, response) => {
+  try {
+    response.json({ message: "User data display" });
+  } catch (error) {
+    console.log("Caught error");
+    console.log(`${error}`);
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getMe,
+};

@@ -1,8 +1,12 @@
+const Goal = require("../models/goalModel");
+
 // @desc Get goals
 // @route GET /api/goals
 // @access Private
 const getGoals = async (request, response) => {
-  response.status(200).json({ message: "Get goals" });
+  const goals = await Goal.find();
+
+  response.status(200).json(goals);
 };
 
 // @desc Set goal
@@ -12,18 +16,21 @@ const setGoal = async (request, response) => {
   try {
     if (!request.body.text) {
       // response.status(400).json({message: 'Please add a text field'})
-  
+
       // This is the express error handler syntax. Above is not ^.
-      response.status(400)
-      throw new Error('Please add text field')
+      response.status(400);
+      throw new Error("Please add text field");
     }
-  
-    response.status(200).json({ message: "Set goal" });
-  } catch(error) {
-    console.log('Caught error')
-    console.log(`${error}`)
+
+    const goal = await Goal.create({
+      text: request.body.text,
+    });
+
+    response.status(200).json(goal); 
+  } catch (error) {
+    console.log("Caught error");
+    console.log(`${error}`);
   }
-  
 };
 
 // @desc Update goal
@@ -31,12 +38,24 @@ const setGoal = async (request, response) => {
 // @access Private
 const updateGoal = async (request, response) => {
   try {
-    response.status(200).json({ message: `Update goal ${request.params.id}` });
-  } catch(error) {
-    console.log('Caught error')
-    console.log(`${error}`)
+    const goal = await Goal.findById(request.params.id);
+
+    if (!goal) {
+      response.status(400);
+      throw new Error("Goal not found");
+    }
+
+    const updateGoal = await Goal.findByIdAndUpdate(
+      request.params.id,
+      request.body,
+      { new: true }
+    );
+
+    response.status(200).json(updateGoal);
+  } catch (error) {
+    console.log("Caught error");
+    console.log(`${error}`);
   }
-  
 };
 
 // @desc Delete goal
@@ -44,12 +63,20 @@ const updateGoal = async (request, response) => {
 // @access Private
 const deleteGoal = async (request, response) => {
   try {
-    response.status(200).json({ message: `Delete goal ${request.params.id}` });
-  } catch(error) {
-    console.log('Caught error')
-    console.log(`${error}`)
+    const goal = await Goal.findById(request.params.id);
+
+    if (!goal) {
+      response.status(400);
+      throw new Error("Goal not found");
+    }
+
+    await goal.remove();
+
+    response.status(200).json({id: request.params.id});
+  } catch (error) {
+    console.log("Caught error");
+    console.log(`${error}`);
   }
-  
 };
 
 module.exports = {
